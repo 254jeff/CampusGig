@@ -17,7 +17,7 @@ public class StudentProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
@@ -42,7 +42,7 @@ public class StudentProfile {
     @Column(name = "completed_tasks")
     private Integer completedTasks;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "student_skills",
             joinColumns = @JoinColumn(name = "student_id"),
