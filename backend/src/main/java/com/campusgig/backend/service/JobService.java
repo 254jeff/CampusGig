@@ -124,7 +124,7 @@ public class JobService {
         jobRepository.delete(job);
     }
 
-    private JobResponse toResponse(Job job) {
+    public JobResponse toResponse(Job job) {
         int applicationCount = applicationRepository.countByJobId(job.getId());
 
         List<JobResponse.SkillDto> skillDtos = job.getRequiredSkills() != null
