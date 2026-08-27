@@ -73,6 +73,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/disputes").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/disputes/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/disputes/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/matching/**").authenticated()
+                        .requestMatchers("/api/recommendations").authenticated()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().denyAll()
                 )
