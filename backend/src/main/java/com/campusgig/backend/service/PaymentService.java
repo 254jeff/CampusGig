@@ -105,7 +105,7 @@ public class PaymentService {
     public double getTotalEarnings(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return paymentRepository.sumByPayeeIdAndStatus(user.getId(), Payment.PaymentStatus.PAID);
+        return paymentRepository.sumEarningsByPayeeId(user.getId());
     }
 
     public List<Payment> getAllPayments() {

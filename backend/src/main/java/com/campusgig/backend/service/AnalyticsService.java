@@ -80,30 +80,34 @@ public class AnalyticsService {
         return total == 0 ? 0 : Math.round((double) completed / total * 100.0) / 100.0;
     }
 
-    public Map<String, Object> getTopUniversities() {
-        return profileRepository.findAll().stream()
+    public Map<String, Long> getTopUniversities() {
+        Map<String, Long> grouped = profileRepository.findAll().stream()
                 .filter(p -> p.getUniversity() != null)
-                .collect(Collectors.groupingBy(StudentProfile::getUniversity, Collectors.counting()))
-                .entrySet().stream()
+                .collect(Collectors.groupingBy(StudentProfile::getUniversity, Collectors.counting()));
+
+        return grouped.entrySet().stream()
                 .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
                 .limit(10)
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        e -> (Object) e.getValue(),
+                        Map.Entry::getValue,
+                        (a, b) -> a,
                         LinkedHashMap::new
                 ));
     }
 
-    public Map<String, Object> getTopCourses() {
-        return profileRepository.findAll().stream()
+    public Map<String, Long> getTopCourses() {
+        Map<String, Long> grouped = profileRepository.findAll().stream()
                 .filter(p -> p.getCourse() != null)
-                .collect(Collectors.groupingBy(StudentProfile::getCourse, Collectors.counting()))
-                .entrySet().stream()
+                .collect(Collectors.groupingBy(StudentProfile::getCourse, Collectors.counting()));
+
+        return grouped.entrySet().stream()
                 .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
                 .limit(10)
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        e -> (Object) e.getValue(),
+                        Map.Entry::getValue,
+                        (a, b) -> a,
                         LinkedHashMap::new
                 ));
     }

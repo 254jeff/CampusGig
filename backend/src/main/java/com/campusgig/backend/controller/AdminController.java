@@ -99,12 +99,12 @@ public class AdminController {
     }
 
     @GetMapping("/analytics/top-universities")
-    public ResponseEntity<Map<String, Object>> getTopUniversities() {
+    public ResponseEntity<Map<String, Long>> getTopUniversities() {
         return ResponseEntity.ok(analyticsService.getTopUniversities());
     }
 
     @GetMapping("/analytics/top-courses")
-    public ResponseEntity<Map<String, Object>> getTopCourses() {
+    public ResponseEntity<Map<String, Long>> getTopCourses() {
         return ResponseEntity.ok(analyticsService.getTopCourses());
     }
 
