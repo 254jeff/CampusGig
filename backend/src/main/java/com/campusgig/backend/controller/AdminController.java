@@ -3,6 +3,7 @@ package com.campusgig.backend.controller;
 import com.campusgig.backend.entity.Category;
 import com.campusgig.backend.entity.User;
 import com.campusgig.backend.service.AdminService;
+import com.campusgig.backend.service.AnalyticsService;
 import com.campusgig.backend.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +23,7 @@ public class AdminController {
 
     private final AdminService adminService;
     private final CategoryService categoryService;
+    private final AnalyticsService analyticsService;
 
     @GetMapping("/dashboard")
     public ResponseEntity<Map<String, Object>> getDashboard() {
@@ -71,5 +74,42 @@ public class AdminController {
     @PostMapping("/categories")
     public ResponseEntity<Category> createCategory(@RequestBody Map<String, String> body) {
         return ResponseEntity.ok(categoryService.createCategory(body.get("name"), body.get("description")));
+    }
+
+    @GetMapping("/analytics/overview")
+    public ResponseEntity<Map<String, Object>> getOverview() {
+        return ResponseEntity.ok(analyticsService.getPlatformOverview());
+    }
+
+    @GetMapping("/analytics/jobs-by-month")
+    public ResponseEntity<Map<String, Long>> getJobsByMonth(@RequestParam(defaultValue = "6") int months) {
+        return ResponseEntity.ok(analyticsService.getJobsByMonth(months));
+    }
+
+    @GetMapping("/analytics/applications-by-month")
+    public ResponseEntity<Map<String, Long>> getApplicationsByMonth(@RequestParam(defaultValue = "6") int months) {
+        return ResponseEntity.ok(analyticsService.getApplicationsByMonth(months));
+    }
+
+    @GetMapping("/analytics/completion-rate")
+    public ResponseEntity<Map<String, Double>> getCompletionRate() {
+        Map<String, Double> result = new HashMap<>();
+        result.put("completionRate", analyticsService.getCompletionRate());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/analytics/top-universities")
+    public ResponseEntity<Map<String, Object>> getTopUniversities() {
+        return ResponseEntity.ok(analyticsService.getTopUniversities());
+    }
+
+    @GetMapping("/analytics/top-courses")
+    public ResponseEntity<Map<String, Object>> getTopCourses() {
+        return ResponseEntity.ok(analyticsService.getTopCourses());
+    }
+
+    @GetMapping("/analytics/most-requested-skills")
+    public ResponseEntity<List<Map<String, Object>>> getMostRequestedSkills() {
+        return ResponseEntity.ok(analyticsService.getMostRequestedSkills());
     }
 }
