@@ -58,6 +58,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/messages").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/messages/**").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/api/messages/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/files/upload").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/files/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().denyAll()
                 )
